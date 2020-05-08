@@ -11,7 +11,8 @@ TBD
 Configuration is possible via command line flags or environment variable. Possible options:
 
 * `--address` or `ADDRESS` - where the server will listen for HTTP connections, defaults to `:8080`
-* `--logFormat` or `LOGFORMAT` - defines whether or not to output the date to log (`LONG` or `SHORT`, respectively) , default to `LONG`
+* `--log_format` or `LOGFORMAT` - defines whether or not to output the date to log (`LONG` or `SHORT`, respectively) , default to `LONG`
+* `--basic_username` or `BASIC_USERNAME`; `--basic_password` or `BASIC_PASSWORD` - if both are set, enables HTTP Basic authorization
 
 ## Example
 
