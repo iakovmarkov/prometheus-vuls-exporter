@@ -6,12 +6,31 @@
 
 This exporter exposes the following metrics:
 
-* reported_at
-* server_count
-* vuln_count
-* vuln_severity
-* vulns
-* servers
+```
+# HELP reported_at Timestamp of last report time, in ms since Unix
+# TYPE reported_at gauge
+reported_at 1.58896003e+09
+# HELP server_count Total count of servers reported
+# TYPE server_count gauge
+server_count 1
+# HELP servers Server information, value represents amount of vulnerabilitites
+# TYPE servers gauge
+servers{cveID="CVE-2009-5080",hostname="test1.iakov.local",kernel_rebootRequired="false",kernel_release="4.15.0-91-generic",serverName="testServer1"} 1
+servers{cveID="CVE-2009-5155",hostname="test1.iakov.local",kernel_rebootRequired="false",kernel_release="4.15.0-91-generic",serverName="testServer1"} 1
+servers{cveID="CVE-2009-5155",hostname="test2.iakov.local",kernel_rebootRequired="false",kernel_release="4.15.0-91-generic",serverName="testServer2"} 1
+# HELP vuln_count Total count of vulnerabilities, across all servers
+# TYPE vuln_count gauge
+vuln_count 2
+# HELP vuln_severity Vulnerability count by severity
+# TYPE vuln_severity gauge
+vuln_severity{severity="high"} 0
+vuln_severity{severity="low"} 1
+vuln_severity{severity="medium"} 1
+# HELP vulns Vulnerability information, value represents total amount of hits
+# TYPE vulns gauge
+vulns{cveID="CVE-2009-5080",fixState="",lastModified="2013-12-13T04:34:00Z",mitigation="",notFixedYet="false",packageName="",published="2011-06-30T15:55:00Z",severity="LOW",summary="The (1) contrib/eqn2graph/eqn2graph.sh, (2) contrib/grap2graph/grap2graph.sh, and (3) contrib/pic2graph/pic2graph.sh scripts in GNU troff (aka groff) 1.21 and earlier do not properly handle certain failed attempts to create temporary directories, which might allow local users to overwrite arbitrary files via a symlink attack on a file in a temporary directory, a different vulnerability than CVE-2004-1296.",title=""} 1
+vulns{cveID="CVE-2009-5155",fixState="",lastModified="2019-03-25T17:29:00Z",mitigation="",notFixedYet="false",packageName="",published="2019-02-26T02:29:00Z",severity="MEDIUM",summary="In the GNU C Library (aka glibc or libc6) before 2.28, parse_reg_exp in posix/regcomp.c misparses alternatives, which allows attackers to cause a denial of service (assertion failure and application exit) or trigger an incorrect result by attempting a regular-expression match.",title=""} 1
+```
 
 ## Installation
 
