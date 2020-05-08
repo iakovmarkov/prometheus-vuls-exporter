@@ -5,7 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	Util "./util"
+	"./metrics"
+	"./utils"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -14,14 +15,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-var (
-	dummyMetric = promauto.NewGauge(prometheus.GaugeOpts{
-		Name: "Dummy",
-		Help: "Dummy Metric",
-	})
-)
-
 func init() {
+	flag.String("reports_dir", "", "The folder where Vulns stores JSON reports.")
 	flag.String("address", ":8080", "The address to listen on for HTTP requests.")
 	flag.String("log_format", "LONG", "Log format - LONG or SHORT.")
 	flag.String("basic_username", "", "Log format - LONG or SHORT.")
@@ -41,11 +36,18 @@ func init() {
 }
 
 func main() {
-	dummyMetric.Set(1)
+	if viper.GetString("reports_dir") == "" {
+		log.Fatalln("reports_dir is not configured, exiting...")
+	}
 
-	var authHandler = Util.HTTPBasicAuthHandler(viper.GetString("basic_username"), viper.GetString("basic_password"))
+	promauto.NewGaugeFunc(prometheus.GaugeOpts{
+		Name: "vulnerability_total",
+		Help: "Total count of vulnerabilities, across all hosts",
+	}, metrics.CreateMetric(viper.GetString("reports_dir")))
+
+	var authHandler = utils.HTTPBasicAuthHandler(viper.GetString("basic_username"), viper.GetString("basic_password"))
 	var promHandler = promhttp.Handler().(http.HandlerFunc)
-	var handler = Util.Use(
+	var handler = utils.Use(
 		promHandler,
 		authHandler,
 	)
