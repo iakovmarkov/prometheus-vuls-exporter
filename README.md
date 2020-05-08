@@ -27,7 +27,7 @@ Set environment variables:
 
 Once you have a config file prepared, run the script from `example/run_vuls.sh`. It will run Vuls scan, create JSON reports and set correct folder permissions. Ideally, this should be ran as a CRON job on your Vuls server.
 
-Then you can run `prometheus-vuls-exporter` by running `example/run_exporter.sh`. This script will just run the `prometheus vuls-exporter` and make it collect reports from configured `REPORTS_DIR`. Point your browser to (localhost:8080/metrics)[http://localhost:8080/metrics], use `admin/s3cr3t` credentials and observe.
+Then you can run `prometheus-vuls-exporter` by running `example/run_exporter.sh`. This script will just run the `prometheus vuls-exporter` and make it collect reports from configured `REPORTS_DIR`. Point your browser to (localhost:8080/metrics)[http://localhost:8080/metrics] and observe.
 
 New metrics will appear when you run the `example/run_vuls.sh` script again. It will generate new JSON metrics, and `prometheus-vuls-exporter` will pick them up next time it will gets asked to report metrics.
 
