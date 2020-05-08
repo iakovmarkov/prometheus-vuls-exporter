@@ -34,7 +34,10 @@ vulns{cveID="CVE-2009-5155",fixState="",lastModified="2019-03-25T17:29:00Z",miti
 
 ## Installation
 
-Download the latest release binary from (GitHub Releases page)[https://github.com/iakovmarkov/prometheus-vuls-exporter/releases]. Put it into your `/usr/bin` or anywhere on your `PATH`. Done.
+Download the latest release binary from (GitHub Releases page)[https://github.com/iakovmarkov/prometheus-vuls-exporter/releases]. Put it into your `/usr/bin` or anywhere on your `PATH`. Something like this, maybe:
+
+    $ curl -Lo prometheus-vuls-exporter https://github.com/iakovmarkov/prometheus-vuls-exporter/releases/latest/prometheus-vuls-exporter-linux-386
+    $ cp prometheus-vuls-exporter /usr/bin/
 
 ## Configuration
 
