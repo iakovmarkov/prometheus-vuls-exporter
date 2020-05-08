@@ -37,7 +37,7 @@ New metrics will appear when you run the `example/run_vuls.sh` script again. It 
 
 First, validate that your `GOPATH` and `GOBIN` environmnet variables work. If you haven't set them up, you can try something like this:
 
-    $ export GOPATH=~/markov/go
+    $ export GOPATH=/root/go
     $ export GOBIN=$GOPATH/bin
     $ export PATH=$PATH:$GOBIN
 

@@ -8,8 +8,6 @@ import (
 	"./metrics"
 	"./utils"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -40,10 +38,7 @@ func main() {
 		log.Fatalln("reports_dir is not configured, exiting...")
 	}
 
-	promauto.NewGaugeFunc(prometheus.GaugeOpts{
-		Name: "vulnerability_total",
-		Help: "Total count of vulnerabilities, across all hosts",
-	}, metrics.CreateMetric(viper.GetString("reports_dir")))
+	metrics.CreateMetrics(viper.GetString("reports_dir"))
 
 	var authHandler = utils.HTTPBasicAuthHandler(viper.GetString("basic_username"), viper.GetString("basic_password"))
 	var promHandler = promhttp.Handler().(http.HandlerFunc)
