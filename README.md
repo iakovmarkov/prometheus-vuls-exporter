@@ -2,6 +2,14 @@
 
 `prometheus-vuls-exporter` is a small Go application that allows scraping of Vuls reports by Prometheus.
 
+## Exported metrics
+
+This exporter handles the following metrics:
+
+* server_count - Gauge
+* vuln_count - Gauge
+* vuln_severity - Histogram
+
 ## Installation
 
 TBD

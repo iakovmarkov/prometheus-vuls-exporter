@@ -12,15 +12,15 @@ import (
 
 func getterFactory(jsonString string) func(path string, a ...interface{}) gjson.Result {
 	return func(path string, a ...interface{}) gjson.Result {
-		var finalPath = fmt.Sprintf(path, a...)
+		finalPath := fmt.Sprintf(path, a...)
 		log.Printf("Trying to get data at path: %s", finalPath)
 		return gjson.Get(jsonString, finalPath)
 	}
 }
 
 func getServerName(file os.FileInfo) string {
-	var parts = strings.Split(file.Name(), ".")
-	var serverName = parts[len(parts)-2]
+	parts := strings.Split(file.Name(), ".")
+	serverName := parts[len(parts)-2]
 	return serverName
 }
 
@@ -28,7 +28,7 @@ func parseReport(file os.FileInfo) Report {
 	var r Report
 
 	// Get basic file info
-	var filePath = fmt.Sprintf("%s/%s", latestPath, file.Name())
+	filePath := fmt.Sprintf("%s/%s", latestPath, file.Name())
 	r.filename = file.Name()
 	r.serverName = getServerName(file)
 	r.path = filePath
@@ -36,8 +36,8 @@ func parseReport(file os.FileInfo) Report {
 	log.Printf("Parsing report: %s", file.Name())
 
 	// Get JSON contents
-	var jsonString = string(utils.ReadFile(filePath))
-	var getData = getterFactory(jsonString)
+	jsonString := string(utils.ReadFile(filePath))
+	getData := getterFactory(jsonString)
 
 	// Basic host information
 	r.hostname = getData("config.report.servers.%s.host", r.serverName).String()
@@ -53,8 +53,8 @@ func parseReport(file os.FileInfo) Report {
 	for _, c := range getData("scannedCves").Map() {
 		// var referenceLinks
 
-		var severity = c.Get("cvss2Severity").String()
-		var cve = CVEInfo{
+		severity := c.Get("cvss2Severity").String()
+		cve := CVEInfo{
 			id:          c.Get("cveID").String(),
 			packageName: c.Get("affectedPackages.last.name").String(),
 			severity:    severity,

@@ -7,7 +7,7 @@ import (
 )
 
 func ReadDir(path string) []os.FileInfo {
-	var dir, err = ioutil.ReadDir(path)
+	dir, err := ioutil.ReadDir(path)
 	if err != nil {
 		log.Fatal(err)
 	}

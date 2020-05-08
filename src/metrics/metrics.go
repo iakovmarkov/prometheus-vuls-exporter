@@ -2,9 +2,6 @@ package metrics
 
 import (
 	"os"
-
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
 )
 
 type JSONData = map[string]interface{}
@@ -42,11 +39,5 @@ var (
 	reportsDir  []os.FileInfo
 	latestPath  string
 	latestDir   []os.FileInfo
+	reports     []Report
 )
-
-func CreateMetrics(reportsDir string) {
-	promauto.NewGaugeFunc(prometheus.GaugeOpts{
-		Name: "vulnerability_total",
-		Help: "Total count of vulnerabilities, across all hosts",
-	}, createMetric(reportsDir))
-}

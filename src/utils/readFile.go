@@ -6,7 +6,7 @@ import (
 )
 
 func ReadFile(path string) []byte {
-	var data, err = ioutil.ReadFile(path)
+	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}

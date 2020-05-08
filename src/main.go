@@ -40,10 +40,12 @@ func main() {
 
 	metrics.CreateMetrics(viper.GetString("reports_dir"))
 
-	var authHandler = utils.HTTPBasicAuthHandler(viper.GetString("basic_username"), viper.GetString("basic_password"))
-	var promHandler = promhttp.Handler().(http.HandlerFunc)
-	var handler = utils.Use(
+	authHandler := utils.HTTPBasicAuthHandler(viper.GetString("basic_username"), viper.GetString("basic_password"))
+	metricCollectionHandler := metrics.MetricCollectionHandler(viper.GetString("reports_dir"))
+	promHandler := promhttp.Handler().(http.HandlerFunc)
+	handler := utils.Use(
 		promHandler,
+		metricCollectionHandler,
 		authHandler,
 	)
 

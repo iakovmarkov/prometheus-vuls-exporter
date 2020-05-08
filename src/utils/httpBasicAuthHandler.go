@@ -6,7 +6,7 @@ import (
 )
 
 func HTTPBasicAuthHandler(basicUsername string, basicPassword string) func(http.HandlerFunc) http.HandlerFunc {
-	var authEnabled = false
+	authEnabled := false
 	if basicUsername != "" || basicPassword != "" {
 		log.Println("HTTP Basic Auth enabled")
 		authEnabled = true
