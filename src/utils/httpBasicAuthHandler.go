@@ -5,12 +5,13 @@ import (
 	"net/http"
 )
 
-
 func HTTPBasicAuthHandler(basicUsername string, basicPassword string) func(http.HandlerFunc) http.HandlerFunc {
 	var authEnabled = false
 	if basicUsername != "" || basicPassword != "" {
 		log.Println("HTTP Basic Auth enabled")
 		authEnabled = true
+	} else {
+		log.Println("Warning! HTTP Basic Auth disabled, your vulnerability metrics are readable by anyone!")
 	}
 
 	return func(h http.HandlerFunc) http.HandlerFunc {
