@@ -15,7 +15,7 @@ This exporter exposes the following metrics:
 
 ## Installation
 
-TBD
+Download the latest release binary from (GitHub Releases page)[https://github.com/iakovmarkov/prometheus-vuls-exporter/releases]. Put it into your `/usr/bin` or anywhere on your `PATH`. Done.
 
 ## Configuration
 
@@ -25,6 +25,7 @@ Configuration is possible via command line flags or environment variable. Possib
 * `--basic_username` or `BASIC_USERNAME`; `--basic_password` or `BASIC_PASSWORD` - if both are set, enables HTTP Basic authorization
 * `--address` or `ADDRESS` - where the server will listen for HTTP connections, defaults to `:8080`
 * `--log_format` or `LOGFORMAT` - defines whether or not to output the date to log (`LONG` or `SHORT`, respectively) , default to `LONG`
+* `--version` - print version and exit
 
 ## Example
 
@@ -56,16 +57,18 @@ First, validate that your `GOPATH` and `GOBIN` environmnet variables work. If yo
 
 After those are set, you can install dependencies:
 
-    $ go get ./src/
+    $ make install
 
 ### Run
 
 You're set! Make your changes and run the application:
 
-    $ go run ./src/
+    $ make run
 
 ### Build
 
-When you're done with your changes and ready to compile and distribute the binary, run this:
+When you're done with your changes and ready to compile the binary, run this:
 
-    $ go build ./src/
+    $ make build
+
+Your binary will be in the `bin` folder.

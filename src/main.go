@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"os"
 
 	"./metrics"
 	"./utils"
@@ -19,11 +20,18 @@ func init() {
 	flag.String("log_format", "LONG", "Log format - LONG or SHORT.")
 	flag.String("basic_username", "", "Log format - LONG or SHORT.")
 	flag.String("basic_password", "", "Log format - LONG or SHORT.")
+	flag.Bool("version", false, "Print version and exit")
 
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 	pflag.Parse()
 	viper.BindPFlags(pflag.CommandLine)
 	viper.AutomaticEnv()
+
+	if viper.GetBool("version") {
+		version := utils.ReadFile("./VERSION")
+		log.Printf("prometheus-vuls-exporter v%s", version)
+		os.Exit(0)
+	}
 
 	log.SetPrefix("prometheus-vuls-exporter ")
 	if viper.GetString("log_format") == "SHORT" {
