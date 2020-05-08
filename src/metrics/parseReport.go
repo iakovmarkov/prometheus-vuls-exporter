@@ -2,7 +2,6 @@ package metrics
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
@@ -51,10 +50,11 @@ func parseReport(file os.FileInfo) Report {
 	// Vulnerability information
 	var cves []CVEInfo
 	for _, c := range getData("scannedCves").Map() {
+		// TODO: This should scan through other properties than "nvd"!
+
 		severity := c.Get("cveContents.nvd.cvss2Severity").String()
 		if severity == "" {
 			severity = c.Get("cveContents.nvd.cvss3Severity").String()
-			log.Println(c.String())
 		}
 
 		cve := CVEInfo{

@@ -41,6 +41,7 @@ func CreateMetrics(reportsDir string) {
 			Help: "Vulnerability count by severity",
 		}, []string{"severity"}),
 		record: func(metric Metric) {
+			metric.prom.(*prometheus.GaugeVec).Reset()
 			for _, report := range reports {
 				for _, cve := range report.cves {
 					severity := strings.ToLower(cve.severity)
@@ -67,6 +68,7 @@ func CreateMetrics(reportsDir string) {
 			"mitigation",
 		}),
 		record: func(metric Metric) {
+			metric.prom.(*prometheus.GaugeVec).Reset()
 			for _, report := range reports {
 				for _, cve := range report.cves {
 					isFixed := "false"
@@ -102,6 +104,7 @@ func CreateMetrics(reportsDir string) {
 			"kernel_rebootRequired",
 		}),
 		record: func(metric Metric) {
+			metric.prom.(*prometheus.GaugeVec).Reset()
 			for _, report := range reports {
 				rebootRequired := "false"
 				if report.kernel.rebootRequired {
