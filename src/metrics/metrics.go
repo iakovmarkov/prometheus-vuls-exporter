@@ -2,6 +2,7 @@ package metrics
 
 import (
 	"os"
+	"time"
 )
 
 type JSONData = map[string]interface{}
@@ -34,10 +35,17 @@ type Report struct {
 	cves       []CVEInfo
 }
 
+type Metric struct {
+	prom   interface{}
+	record func(metric Metric)
+}
+
 var (
 	reportsPath string
 	reportsDir  []os.FileInfo
 	latestPath  string
 	latestDir   []os.FileInfo
 	reports     []Report
+	reportedAt  time.Time
+	metrics     []Metric
 )

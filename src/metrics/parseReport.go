@@ -13,7 +13,7 @@ import (
 func getterFactory(jsonString string) func(path string, a ...interface{}) gjson.Result {
 	return func(path string, a ...interface{}) gjson.Result {
 		finalPath := fmt.Sprintf(path, a...)
-		log.Printf("Trying to get data at path: %s", finalPath)
+		// log.Printf("Trying to get data at path: %s", finalPath)
 		return gjson.Get(jsonString, finalPath)
 	}
 }
@@ -33,7 +33,7 @@ func parseReport(file os.FileInfo) Report {
 	r.serverName = getServerName(file)
 	r.path = filePath
 
-	log.Printf("Parsing report: %s", file.Name())
+	// log.Printf("Parsing report: %s", file.Name())
 
 	// Get JSON contents
 	jsonString := string(utils.ReadFile(filePath))
@@ -51,18 +51,20 @@ func parseReport(file os.FileInfo) Report {
 	// Vulnerability information
 	var cves []CVEInfo
 	for _, c := range getData("scannedCves").Map() {
-		// var referenceLinks
+		severity := c.Get("cveContents.nvd.cvss2Severity").String()
+		if severity == "" {
+			severity = c.Get("cveContents.nvd.cvss3Severity").String()
+			log.Println(c.String())
+		}
 
-		severity := c.Get("cvss2Severity").String()
 		cve := CVEInfo{
-			id:          c.Get("cveID").String(),
-			packageName: c.Get("affectedPackages.last.name").String(),
-			severity:    severity,
-			fixState:    c.Get("affectedPackages.last.fixState").String(),
-			notFixedYet: c.Get("affectedPackages.last.notFixedYet").Bool(),
-			title:       c.Get("cveContents.nvd.title").String(),
-			summary:     c.Get("cveContents.nvd.summary").String(),
-			// referenceLinks: referenceLinks,
+			id:           c.Get("cveID").String(),
+			packageName:  c.Get("affectedPackages.last.name").String(),
+			severity:     severity,
+			fixState:     c.Get("affectedPackages.last.fixState").String(),
+			notFixedYet:  c.Get("affectedPackages.last.notFixedYet").Bool(),
+			title:        c.Get("cveContents.nvd.title").String(),
+			summary:      c.Get("cveContents.nvd.summary").String(),
 			published:    c.Get("cveContents.nvd.published").String(),
 			lastModified: c.Get("cveContents.nvd.lastModified").String(),
 			mitigation:   c.Get("cveContents.nvd.mitigation").String(),

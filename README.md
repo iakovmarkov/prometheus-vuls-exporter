@@ -4,11 +4,14 @@
 
 ## Exported metrics
 
-This exporter handles the following metrics:
+This exporter exposes the following metrics:
 
-* server_count - Gauge
-* vuln_count - Gauge
-* vuln_severity - Histogram
+* reported_at
+* server_count
+* vuln_count
+* vuln_severity
+* vulns
+* servers
 
 ## Installation
 
