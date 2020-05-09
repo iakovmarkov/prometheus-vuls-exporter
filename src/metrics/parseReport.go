@@ -54,15 +54,15 @@ func parseReport(file os.FileInfo) Report {
 
 		severity := c.Get("cveContents.nvd.cvss2Severity").String()
 		if severity == "" {
-			severity = c.Get("cveContents.nvd.cvss3Severity").String()
+			severity = "UNKNOWN"
 		}
 
 		cve := CVEInfo{
 			id:           c.Get("cveID").String(),
-			packageName:  c.Get("affectedPackages.last.name").String(),
+			packageName:  c.Get("affectedPackages.0.name").String(),
 			severity:     severity,
-			fixState:     c.Get("affectedPackages.last.fixState").String(),
-			notFixedYet:  c.Get("affectedPackages.last.notFixedYet").Bool(),
+			fixState:     c.Get("affectedPackages.0.fixState").String(),
+			notFixedYet:  c.Get("affectedPackages.0.notFixedYet").Bool(),
 			title:        c.Get("cveContents.nvd.title").String(),
 			summary:      c.Get("cveContents.nvd.summary").String(),
 			published:    c.Get("cveContents.nvd.published").String(),

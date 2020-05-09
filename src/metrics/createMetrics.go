@@ -44,7 +44,7 @@ func CreateMetrics(reportsDir string) {
 			metric.prom.(*prometheus.GaugeVec).Reset()
 			for _, report := range reports {
 				for _, cve := range report.cves {
-					severity := strings.ToLower(cve.severity)
+					severity := strings.ToUpper(cve.severity)
 					metric.prom.(*prometheus.GaugeVec).WithLabelValues(severity).Inc()
 				}
 			}
@@ -100,6 +100,7 @@ func CreateMetrics(reportsDir string) {
 			"serverName",
 			"hostname",
 			"cveID",
+			"severity",
 			"kernel_release",
 			"kernel_rebootRequired",
 		}),
@@ -115,6 +116,7 @@ func CreateMetrics(reportsDir string) {
 						report.serverName,
 						report.hostname,
 						cve.id,
+						cve.severity,
 						report.kernel.release,
 						rebootRequired,
 					).Inc()

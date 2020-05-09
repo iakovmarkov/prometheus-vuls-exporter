@@ -65,6 +65,12 @@ Then you can run `prometheus-vuls-exporter` by running `example/run_exporter.sh`
 
 New metrics will appear when you run the `example/run_vuls.sh` script again. It will generate new JSON metrics, and `prometheus-vuls-exporter` will pick them up next time it will gets asked to report metrics.
 
+### Grafana dashboard
+
+![Screenshot](example/screenshot.png "Grafana dashboard example")
+
+This example Grafana dashboard. Visit [grafana.com](https://grafana.com/grafana/dashboards/12255/) to get it's JSON. This is a heavy work-in-progress.
+
 ## Developing
 
 ### Go environment
@@ -94,3 +100,7 @@ When you're done with your changes and ready to compile the binary, run this:
     $ make build
 
 Your binary will be in the `bin` folder.
+
+## Disclaimer
+
+This exporter is mainly developed again Ubuntu targets. Support of other distros is not guaranteed, but if you find a bug I will welcome a PR that fixes it on your target OS!
