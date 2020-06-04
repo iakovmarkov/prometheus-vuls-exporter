@@ -18,8 +18,9 @@ func getterFactory(jsonString string) func(path string, a ...interface{}) gjson.
 }
 
 func getServerName(file os.FileInfo) string {
-	parts := strings.Split(file.Name(), ".")
-	serverName := parts[len(parts)-2]
+	filename := file.Name()
+	lastDot := strings.LastIndex(filename, ".")
+  	serverName := filename[0:lastDot]	
 	return serverName
 }
 
