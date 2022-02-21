@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"./metrics"
-	"./utils"
+	"prometheus-vuls-exporter/metrics"
+	"prometheus-vuls-exporter/utils"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spf13/pflag"

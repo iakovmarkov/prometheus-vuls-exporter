@@ -5,7 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"../utils"
+	"prometheus-vuls-exporter/utils"
+
 	"github.com/tidwall/gjson"
 )
 
@@ -20,7 +21,7 @@ func getterFactory(jsonString string) func(path string, a ...interface{}) gjson.
 func getServerName(file os.FileInfo) string {
 	filename := file.Name()
 	lastDot := strings.LastIndex(filename, ".")
-  	serverName := filename[0:lastDot]	
+	serverName := filename[0:lastDot]
 	return serverName
 }
 
