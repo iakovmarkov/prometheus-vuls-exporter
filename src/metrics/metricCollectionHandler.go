@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"sort"
 
-	"../utils"
+	"prometheus-vuls-exporter/utils"
 )
 
 func collectReports(reportPath string) {

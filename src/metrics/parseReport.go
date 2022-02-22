@@ -3,9 +3,9 @@ package metrics
 import (
 	"fmt"
 	"os"
+	"prometheus-vuls-exporter/utils"
 	"strings"
 
-	"../utils"
 	"github.com/tidwall/gjson"
 )
 
@@ -20,8 +20,22 @@ func getterFactory(jsonString string) func(path string, a ...interface{}) gjson.
 func getServerName(file os.FileInfo) string {
 	filename := file.Name()
 	lastDot := strings.LastIndex(filename, ".")
-  	serverName := filename[0:lastDot]	
+	serverName := filename[0:lastDot]
 	return serverName
+}
+
+//  removeDuplicateValues removes duplicates from a slice of string
+func removeDuplicateValues(stringSlice []string) []string {
+	keys := make(map[string]bool)
+	results := []string{}
+
+	for _, entry := range stringSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			results = append(results, entry)
+		}
+	}
+	return results
 }
 
 func parseReport(file os.FileInfo) Report {
@@ -51,10 +65,18 @@ func parseReport(file os.FileInfo) Report {
 	// Vulnerability information
 	var cves []CVEInfo
 	for _, c := range getData("scannedCves").Map() {
-		// TODO: This should scan through other properties than "nvd"!
+		var severity string
+		cvssSeverities := c.Get("cveContents.@values.@flatten.#.cvss2Severity")
 
-		severity := c.Get("cveContents.nvd.cvss2Severity").String()
-		if severity == "" {
+		var severitiesSlice []string
+		for _, sev := range cvssSeverities.Array() {
+			severitiesSlice = append(severitiesSlice, sev.String())
+		}
+
+		uniqueSeverities := removeDuplicateValues(severitiesSlice)
+		if len(uniqueSeverities) > 0 {
+			severity = strings.ToLower(uniqueSeverities[0])
+		} else {
 			severity = "UNKNOWN"
 		}
 
