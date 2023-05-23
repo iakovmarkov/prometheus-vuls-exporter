@@ -17,3 +17,4 @@
 vulsctl/
 example/config.sh
 bin/
+src/vendor
