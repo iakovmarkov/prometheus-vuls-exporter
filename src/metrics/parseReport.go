@@ -80,12 +80,31 @@ func parseReport(file os.FileInfo) Report {
 			severity = "UNKNOWN"
 		}
 
+    // Get affected package or CPE URI
+    var packageName string
+		var fixState string
+		var notFixedYet bool
+    if c.Get("affectedPackages").Exists() {
+        packageName = c.Get("affectedPackages.0.name").String()
+				fixState    = c.Get("affectedPackages.0.fixState").String()
+				notFixedYet = c.Get("affectedPackages.0.notFixedYet").Bool()
+    } else if c.Get("cpeURIs").Exists() {
+        packageName = c.Get("cpeURIs.0").String()
+				fixState    = ""
+				notFixedYet = false
+    } else {
+				// Fallback: No affectedPackages or cpeURIs available
+				packageName = ""
+				fixState    = ""
+				notFixedYet = false
+		}
+
 		cve := CVEInfo{
 			id:           c.Get("cveID").String(),
-			packageName:  c.Get("affectedPackages.0.name").String(),
+			packageName:  packageName,
 			severity:     severity,
-			fixState:     c.Get("affectedPackages.0.fixState").String(),
-			notFixedYet:  c.Get("affectedPackages.0.notFixedYet").Bool(),
+			fixState:     fixState,
+			notFixedYet:  notFixedYet,
 			title:        c.Get("cveContents.nvd.title").String(),
 			summary:      c.Get("cveContents.nvd.summary").String(),
 			published:    c.Get("cveContents.nvd.published").String(),
